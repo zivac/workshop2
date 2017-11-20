@@ -1,0 +1,23 @@
+{
+  "name": "workshop2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "server": "node dist/app.js",
+    "clean": "rmdir /Q /S dist",
+    "rebuild": "npm run clean & npm run build",
+    "start": "npm run build & npm run server"
+  },
+  "author": "dzivkovic",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.0.39",
+    "@types/mongodb": "^2.2.15",
+    "express": "^4.16.2",
+    "mongodb": "^2.2.33",
+    "reflect-metadata": "^0.1.10"
+  }
+}
