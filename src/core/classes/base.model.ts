@@ -1,5 +1,5 @@
 import { ObjectId } from "bson";
-import { Collection, WriteOpResult } from "mongodb";
+import { Collection, WriteOpResult, DeleteWriteOpResultObject } from "mongodb";
 
 export class BaseModel {
 
@@ -17,16 +17,31 @@ export class BaseModel {
     }
 
     async save(): Promise<WriteOpResult> {
-        let collection = BaseModel.getCollection();
-        if (!collection) return null;
+        let modelData = Reflect.getMetadata('modelData', this.constructor);
+        if (!modelData) return null;
+        let collection = modelData.database.getCollection(modelData.collection);
         return collection.save(this);
     }
 
     static async find(filters?: Object): Promise<any[]> {
-        let collection = BaseModel.getCollection();
+        let collection = this.getCollection();
         if (!collection) return null;
         if (filters && filters['_id'] && typeof filters['_id'] == 'string') filters['_id'] = new ObjectId(filters['_id']);
         return (await collection.find(filters).toArray()).map(item => new this(item));
+    }
+
+    static async update(id: string | ObjectId, data: any): Promise<WriteOpResult> {
+        let collection = this.getCollection();
+        if (!collection) return null;
+        if (!(id instanceof ObjectId)) id = new ObjectId(id);
+        return await collection.update({_id: id}, {$set: data});
+    }
+
+    static async delete(id: string | ObjectId): Promise<DeleteWriteOpResultObject> {
+        let collection = this.getCollection();
+        if (!collection) return null;
+        if (!(id instanceof ObjectId)) id = new ObjectId(id);
+        return await collection.deleteOne({_id: id});
     }
 
 }

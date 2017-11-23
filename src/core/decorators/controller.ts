@@ -1,6 +1,4 @@
-import { Middleware } from "../index";
-
-export function Controller(prefix: string, middleware?: Middleware[]) {
+export function Controller(prefix: string, middleware?: Function[]) {
     return function(target: any) {
         Reflect.defineMetadata('controllerData', {
             url: prefix,

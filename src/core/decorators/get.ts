@@ -1,13 +1,14 @@
 import { HttpMethod } from "../enums/http.method";
-import { Middleware } from '../interfaces/middleware';
 
-export function Get(route: string, middleware?: Middleware[]) {
+export function Get(route: string, middleware?: Function[]) {
     return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-        Reflect.defineMetadata('route_data', {
+        let routes = Reflect.getMetadata('routes', target) || [];
+        routes.push({
+            function: propertyKey,
             url: route,
             type: HttpMethod.GET,
             middleware: middleware
-        }, descriptor.value)
-        return descriptor;
+        })
+        Reflect.defineMetadata('routes', routes, target);
     }
 }
