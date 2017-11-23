@@ -4,22 +4,22 @@ import { HttpError } from './classes/http.error';
 
 export class Server {
 
-    port: number;
-    app: Application;
+    private _port: number;
+    private _app: Application;
 
     constructor(module: Function, port?: number) {
 
-        this.port = port || 3000;
-        this.app = express();
+        this._port = port || 3000;
+        this._app = express();
 
         //add some routes here
         let moduleElements = Reflect.getMetadata('moduleElements', module);
 
-        this.app.use(this.notFound); //404 error handler
-        this.app.use(this.errorHandler); //other errors handler
+        this._app.use(this.notFound); //404 error handler
+        this._app.use(this.errorHandler); //other errors handler
 
-        this.app.listen(this.port, () => {
-            console.log('App listening on port ' + this.port);
+        this._app.listen(this._port, () => {
+            console.log('App listening on port ' + this._port);
         })
 
     }

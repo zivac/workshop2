@@ -2,24 +2,34 @@ import { MongoClient, Db, Collection } from "mongodb";
 
 export class Database {
 
-    url: string;
-    db: Db
+    private _url: string;
+    private _db: Db;
+    private _isConnected: boolean = false;
 
     constructor(name: string, host: string = 'localhost', port: number = 27017) {
-        this.url = `mongodb://${host}:${port}/${name}`
+        this._url = `mongodb://${host}:${port}/${name}`
     }
 
     async connect(): Promise<Db> {
-        this.db = await MongoClient.connect(this.url)
-        return this.db;
+        if(!this._isConnected) {
+            this._db = await MongoClient.connect(this._url)
+            this._isConnected = true;
+        }
+        return this._db;
     }
 
     async close(): Promise<void> {
-        return this.db.close();
+        let closing = await this._db.close();
+        this._isConnected = false;
+        return closing;
     }
 
     async createCollection(collection: string): Promise<Collection> {
-        return await this.db.createCollection(collection)
+        return await this._db.createCollection(collection)
+    }
+
+    getCollection(collection: string): Collection {
+        return this._db.collection(collection);
     }
 
 }
