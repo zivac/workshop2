@@ -39,6 +39,10 @@ export class Container {
 
     }
 
+    private loadMiddleware(): void {
+        
+    }
+
     private loadControllers(): void {
 
     }
