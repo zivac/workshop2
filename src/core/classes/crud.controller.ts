@@ -6,7 +6,7 @@ import { Param } from "../decorators/param";
 import { Body } from "../decorators/body";
 import { HttpError } from "./http.error";
 
-export class CrudController {
+export abstract class CrudController {
 
     model: any;
 

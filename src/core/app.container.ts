@@ -101,6 +101,11 @@ export class AppContainer {
                     else if(param.key == 'param') {
                         let paramValue = req.params[param.name] || req.query[param.name] || (req.body ? req.body[param.name] : undefined);
                         if(param.required && paramValue === undefined) throw new HttpError(400, `${param.name} is required`);
+                        if(param.type) {
+                            if (param.type == String) paramValue = paramValue.toString();
+                            else if (param.type == Number) paramValue = Number.parseFloat(paramValue);
+                            else if (param.type != Object && param.type != Array) paramValue = new param.type(paramValue);
+                        }
                         return paramValue;
                     } else if(param.key == 'body') {
                         if(param.type) return new param.type(req.body)
