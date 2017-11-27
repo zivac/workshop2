@@ -1,25 +1,25 @@
 import { Server } from './server';
 import { Database } from './database';
-import { Controller } from './decorators/controller';
-import { Get } from './decorators/get';
-import { Post } from './decorators/post';
 import { BaseModel } from './classes/base.model';
-import { Model } from './decorators/model';
 import { HttpError } from './classes/http.error';
 import { HttpMethod } from './enums/http.method';
-import { Module } from './decorators/module';
-import { Middleware } from './decorators/middleware';
-import { Service } from './decorators/service';
 import { Resolve } from './interfaces/resolve';
 import { Request } from './interfaces/request';
 import { Response } from './interfaces/response';
-import { Param } from './decorators/param';
-import { Req } from './decorators/req';
-import { Res } from './decorators/res';
-import { Body } from './decorators/body';
-import { Query } from './decorators/query';
-import { Delete } from './decorators/delete';
-import { Put } from './decorators/put';
+import { Controller } from './decorators/class/controller';
+import { Get } from './decorators/method/get';
+import { Post } from './decorators/method/post';
+import { Delete } from './decorators/method/delete';
+import { Put } from './decorators/method/put';
+import { Model } from './decorators/class/model';
+import { Middleware } from './decorators/class/middleware';
+import { Module } from './decorators/class/module';
+import { Service } from './decorators/class/service';
+import { Param } from './decorators/parameter/param';
+import { Req } from './decorators/parameter/req';
+import { Res } from './decorators/parameter/res';
+import { Query } from './decorators/parameter/query';
+import { Body } from './decorators/parameter/body';
 
 export {
     Server,
