@@ -1,4 +1,4 @@
-import { HttpMethod } from "../enums/http.method";
+import { HttpMethod } from "../../enums/http.method";
 
 export function Put(route: string, middleware?: Function[]) {
     return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {

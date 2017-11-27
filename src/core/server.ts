@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response, Application, NextFunction } from 'express-serve-static-core';
 import { HttpError } from './classes/http.error';
-import { AppContainer } from './app.container';
+import { AppContainer } from './containers/app.container';
 
 export class Server {
 
@@ -19,17 +19,15 @@ export class Server {
     }
 
     private async start() {
+
         this._app = express();
-        
-        //add some routes here
         await new AppContainer(this._module).bootstrap(this._app)
-
         this._app.use(this.notFound); //404 error handler
-
         this._app.listen(this._port, () => {
             console.log('App listening on port ' + this._port);
         })
-}
+        
+    }
 
     private notFound(req: Request, res: Response, next: NextFunction): void {
         res.status(404);

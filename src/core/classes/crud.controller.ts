@@ -1,10 +1,4 @@
-import { Get } from "../decorators/get";
-import { Post } from "../decorators/post";
-import { Delete } from "../decorators/delete";
-import { Query } from "../index";
-import { Param } from "../decorators/param";
-import { Body } from "../decorators/body";
-import { HttpError } from "./http.error";
+import { Query, Get, Param, HttpError, Post, Body, Delete } from "../index";
 
 export abstract class CrudController {
 
