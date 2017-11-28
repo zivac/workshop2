@@ -1,13 +1,20 @@
 import { ObjectId } from "bson";
 import { Collection, WriteOpResult, DeleteWriteOpResultObject } from "mongodb";
 
+type ID = ObjectId | string;
+
 export class BaseModel {
 
     _id: ObjectId
 
-    constructor(init?: Object) {
-        if(init) Object.assign(this, init);
+    constructor(init?: ID | Object) {
+        if(init) {
+            if(init instanceof ObjectId) this._id = init;
+            else if (typeof init == 'string') this._id = new ObjectId(init);
+            else Object.assign(this, init);
+        }
         if(!this._id) this._id = new ObjectId();
+        else if(typeof this._id == 'string') this._id = new ObjectId(this._id);
     }
 
     static getCollection(): Collection {
@@ -30,14 +37,14 @@ export class BaseModel {
         return (await collection.find(filters).toArray()).map(item => new this(item));
     }
 
-    static async update(id: string | ObjectId, data: any): Promise<WriteOpResult> {
+    static async update(id: ID, data: any): Promise<WriteOpResult> {
         let collection = this.getCollection();
         if (!collection) return null;
         if (!(id instanceof ObjectId)) id = new ObjectId(id);
         return await collection.update({_id: id}, {$set: data});
     }
 
-    static async delete(id: string | ObjectId): Promise<DeleteWriteOpResultObject> {
+    static async delete(id: ID): Promise<DeleteWriteOpResultObject> {
         let collection = this.getCollection();
         if (!collection) return null;
         if (!(id instanceof ObjectId)) id = new ObjectId(id);
