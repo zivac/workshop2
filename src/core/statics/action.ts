@@ -10,7 +10,6 @@ export class Action {
             try {
 
                 let response = await controller[route](...routeParams.map(param => {
-                    let reqBody = req.body;
                     if (!param) return null;
                     if (param.key == 'req') return req;
                     else if (param.key == 'res') return res;
