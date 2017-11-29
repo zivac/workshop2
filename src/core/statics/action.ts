@@ -1,5 +1,6 @@
 import { Request, Response } from 'express-serve-static-core';
 import { HttpError } from '../classes/http.error';
+import { Parameter } from './parameter';
 
 export class Action {
 
@@ -9,25 +10,7 @@ export class Action {
 
             try {
 
-                let response = await controller[route](...routeParams.map(param => {
-                    if (!param) return null;
-                    if (param.key == 'req') return req;
-                    else if (param.key == 'res') return res;
-                    else if (param.key == 'param') {
-                        let paramValue = req.params[param.name] || req.query[param.name] || (req.body ? req.body[param.name] : undefined);
-                        if (param.required && paramValue === undefined) throw new HttpError(400, `${param.name} is required`);
-                        if (param.type) {
-                            if (param.type == String) paramValue = paramValue.toString();
-                            else if (param.type == Number) paramValue = Number.parseFloat(paramValue);
-                            else if (param.type != Object && param.type != Array) paramValue = new param.type(paramValue);
-                        }
-                        return paramValue;
-                    } else if (param.key == 'body') {
-                        if (param.type) return new param.type(req.body)
-                        else return req.body;
-                    } else if (param.key == 'query') return req.query;
-                    else return null;
-                }));
+                let response = await controller[route](...routeParams.map(param => Parameter.resolve(req, res, param)));
                 if (!res.headersSent) res.send(response);
 
             } catch (err) {

@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response, Application, NextFunction } from 'express-serve-static-core';
-import { HttpError } from './classes/http.error';
-import { AppContainer } from './containers/app.container';
+import { HttpError } from '../index';
+import { AppContainer } from '../containers/app.container';
 
 export class Server {
 

@@ -1,6 +1,6 @@
-import { Server } from './server';
-import { Database } from './database';
-import { BaseModel } from './classes/base.model';
+import { Server } from './classes/server';
+import { Database } from './classes/database';
+import { BaseModel } from './common/base.model';
 import { HttpError } from './classes/http.error';
 import { HttpMethod } from './enums/http.method';
 import { Resolve } from './interfaces/resolve';
@@ -20,6 +20,7 @@ import { Req } from './decorators/parameter/req';
 import { Res } from './decorators/parameter/res';
 import { Query } from './decorators/parameter/query';
 import { Body } from './decorators/parameter/body';
+import { CrudController } from './common/crud.controller';
 
 export {
     Server,
@@ -30,6 +31,7 @@ export {
     Delete,
     Put,
     BaseModel,
+    CrudController,
     Model,
     HttpError,
     HttpMethod,
